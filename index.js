@@ -65,14 +65,13 @@ const storage = multer.diskStorage({
 
 // Passport middleware
 app.use(session({
-    secret: secret, // Change this to a random secret key
+    secret: secret, 
     resave: false,
     saveUninitialized: true
   }));
 
 app.use(passport.initialize());
 app.use(passport.session());
-//app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 
 const isAuthenticated = (req, res, next) => {
@@ -161,8 +160,7 @@ app.post('/login',hashincomingpassword , passport.authenticate('local'), (req, r
     // `req.user` contains the authenticated user
     res.status(200);
     res.send({message: 'Login successful.', user: req.user.id ,})
-     //res.json({ message: 'Login successful.', user: req.user , "id" : id});
-  });
+   });
   
   // Logout route
 app.get('/logout', (req, res) => {
