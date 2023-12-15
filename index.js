@@ -37,7 +37,14 @@ const createTableQuery = `
     id VARCHAR(255) PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     username VARCHAR(255) UNIQUE NOT NULL,
-    password VARCHAR(255) NOT NULL
+    password VARCHAR(255) NOT NULL,
+    phone INT, 
+    address VARCHAR(255), 
+    college VARCHAR(255), 
+    date_of_birth VARCHAR(255), 
+    description TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
   )
 `;
 
@@ -131,7 +138,7 @@ const hashincomingpassword = function (req,res,next){
 
 // Signup route
 app.post('/signup', (req, res) => {
-  const { name , username, password} = req.body;
+  const { name , username, password , phone , address , college , date_of_birth , description} = req.body;
   const hashedpass = hashPassword(password);
   const ID = uuidv4();
   // Check if the username is already taken
@@ -145,7 +152,7 @@ app.post('/signup', (req, res) => {
     }
 
     // Create a new user
-    pool.query('INSERT INTO backuser (id, name, username, password) VALUES (? ,?,?, ?)', [ID,name,username, hashedpass], (err) => {
+    pool.query('INSERT INTO backuser (id, name, username, password ,phone , address , college, date_of_birth , description) VALUES (?,?,?,?,?,?,?,?,?)', [ID,name,username, hashedpass,phone , address , college , date_of_birth , description], (err) => {
       if (err) {
         return res.status(500).json({ message: 'Error saving user.' });
       }
